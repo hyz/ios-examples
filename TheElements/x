@@ -1,0 +1,49 @@
+
+    self.window
+            .rootViewController = UITabBarController
+                .viewControllers = NSMutableArray
+
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    
+    id<ElementsDataSource, UITableViewDataSource> dataSource;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    NSMutableArray *viewControllers = [NSMutableArray arrayWithCapacity:4];
+    
+    // create our tabbar view controllers, since we already have one defined in our storyboard
+    // we will create 3 more instances of it, and assign each it's own kind data source
+    
+    UINavigationController *navController;
+    ElementsTableViewController *viewController;
+
+    // by name
+    navController = [storyboard instantiateViewControllerWithIdentifier:@"navForTableView"];
+      viewController = (ElementsTableViewController *)[navController topViewController];
+      viewController.dataSource = [[ElementsSortedByNameDataSource alloc] init];
+    [viewControllers addObject:navController];
+    
+    // by atomic number
+    navController = [storyboard instantiateViewControllerWithIdentifier:@"navForTableView"];
+    viewController = (ElementsTableViewController *)[navController topViewController];
+    dataSource = [[ElementsSortedByAtomicNumberDataSource alloc] init];
+    viewController.dataSource = dataSource;
+    [viewControllers addObject:navController];
+    
+    // by symbol
+    navController = [storyboard instantiateViewControllerWithIdentifier:@"navForTableView"];
+    viewController = (ElementsTableViewController *)[navController topViewController];
+    dataSource = [[ElementsSortedBySymbolDataSource alloc] init];
+    viewController.dataSource = dataSource;
+    [viewControllers addObject:navController];
+    
+    // by state
+    navController = [storyboard instantiateViewControllerWithIdentifier:@"navForTableView"];
+    viewController = (ElementsTableViewController *)[navController topViewController];
+    dataSource = [[ElementsSortedByStateDataSource alloc] init];
+    viewController.dataSource = dataSource;
+    [viewControllers addObject:navController];
+    
+    tabBarController.viewControllers = viewControllers;
+    
+    return YES;
+
